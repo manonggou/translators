@@ -41,7 +41,8 @@ jobs:
         run: npm ci
       
       - name: Lint
-        run: git diff -z --name-only ${{ github.event.before }} *.js | xargs -0 npm run lint --
+        run: ./lint.sh
+        working-directory: .ci
       
       - name: Check deleted.txt
         run: ./checkDeletedTxt.sh
