@@ -43,6 +43,9 @@ jobs:
       - name: Install node packages
         run: npm ci
       
+      - name: Debugging with tmate
+        uses: mxschmitt/action-tmate@v3.1
+      
       - name: Lint
         run: ./lint.sh
         working-directory: .ci
