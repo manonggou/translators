@@ -15,9 +15,9 @@ jobs:
           node-version: 14
       
       # On GitHub
-      - name: Install xvfb
-        if: env.ACT != 'true'
-        run: sudo apt update && sudo apt install -y xvfb
+      #- name: Install xvfb
+      #  if: env.ACT != 'true'
+      #  run: sudo apt update && sudo apt install -y [...]
       
       # Local via act
       - name: Install packages for act
