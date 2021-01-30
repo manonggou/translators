@@ -19,5 +19,6 @@ get_translator_id() {
 }
 
 get_translators_to_check() {
+	
 	TRANSLATORS_TO_CHECK=$(git diff $(git rev-list "$(git rev-list --first-parent ^origin/master HEAD | tail -n1)^^!") --name-only | grep -e "^[^/]*.js$")
 }
