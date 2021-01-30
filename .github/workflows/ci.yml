@@ -1,0 +1,53 @@
+name: CI
+on: [push, pull_request]
+jobs:
+  build:
+    name: Lint, Check, Test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: true
+      
+      - name: Install Node
+        uses: actions/setup-node@v1
+        with:
+          node-version: 14
+      
+      # On GitHub
+      - name: Install xvfb
+        if: env.ACT != 'true'
+        run: sudo apt update && sudo apt install -y xvfb
+      
+      # Local via act
+      - name: Install packages for act
+        if: env.ACT == 'true'
+        run: apt update && apt install -y zstd xvfb git
+      
+      - name: Get current connector hash
+        id: get-connector-hash
+        run: |
+          echo "::set-output name=hash::$(git ls-remote https://github.com/zotero/zotero-connectors.git refs/heads/master | awk -F '\\s+' '{print $1})"
+        shell: bash
+      
+      - name: Cache Connector
+        id: connector-cache
+        uses: actions/cache@v2
+        with:
+          path: .ci/pull-request-check/connectors
+          key: connectors-${{ hashFiles('.ci/pull-request-check/check_pull_request.sh') }}-${{ steps.get-connector-hash.outputs.hash }}
+      
+      - name: Install node packages
+        run: npm ci
+      
+      - name: Lint
+        run: git diff -z --name-only ${{ github.event.before }} *.js | xargs -0 npm run lint --
+      
+      - name: Check deleted.txt
+        run: ./checkDeletedTxt.sh
+        working-directory: .ci
+      
+      - name: Test pull request
+        if: github.event_name == 'pull_request'
+        run: ./check-pull-request.sh
+        working-directory: pull-request-check

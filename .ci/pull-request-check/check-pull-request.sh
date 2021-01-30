@@ -1,9 +1,5 @@
 #!/usr/bin/env bash
 
-if [[ "$TRAVIS_PULL_REQUEST" == "false" ]]; then
-	exit 0;
-fi
-
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 ROOT_DIR="$( dirname "$DIR" )"
 
@@ -14,9 +10,9 @@ get_translators_to_check() {
 		# Travis-CI tests on that commit instead of the HEAD of the PR branch.
 		#
 		# Thus below we first determine if HEAD is a merge commit by checking how
-		# many parents the current HEAD has. If number of parents > 1, then its a merge commit
+		# many parents the current HEAD has. If number of parents > 1, then it's a merge commit
 		# in which case we need to diff translator names between HEAD^2 and PR split commit from master.
-		# The above will generally only be the case on Travis-CI or if using a custom PR pulling script which
+		# The above will generally only be the case in CI or if using a custom PR pulling script which
 		# pulls the merge PR commit instead of just the PR branch.
 		#
 		# If the HEAD commit is not a merge then we diff HEAD with PR split commit from master. This is the case
