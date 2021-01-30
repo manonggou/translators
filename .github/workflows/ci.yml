@@ -24,6 +24,8 @@ jobs:
         if: env.ACT == 'true'
         run: apt update && apt install -y zstd xvfb git
       
+      - run: git fetch origin master
+      
       - name: Get current connector hash
         id: get-connector-hash
         run: |
