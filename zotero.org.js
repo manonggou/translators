@@ -46,6 +46,7 @@ function scrape(text) {
 			case 'relations':
 			case 'dateAdded':
 			case 'dateModified':
+			case 'foo':
 				continue;
 		}
 		newItem[prop] = item.data[prop];
