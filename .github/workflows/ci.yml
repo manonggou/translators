@@ -27,7 +27,7 @@ jobs:
       - name: Get current connector hash
         id: get-connector-hash
         run: |
-          echo "::set-output name=hash::$(git ls-remote https://github.com/zotero/zotero-connectors.git refs/heads/master | awk -F '\\s+' '{print $1})"
+          echo "::set-output name=hash::$(git ls-remote https://github.com/zotero/zotero-connectors.git refs/heads/master | awk -F '\\s+' '{print $1}')"
         shell: bash
       
       - name: Cache Connector
